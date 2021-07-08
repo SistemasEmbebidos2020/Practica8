@@ -13,7 +13,7 @@ void SPI_init()
 void sensor_init(int sl){
             SPI_slaveON(sl);
             SPI_masterTransmit(0x80);		//acceder al registro de control
-            SPI_masterTransmit(0x04);		//fijar en modo continuo de lectura de temperatura
+            SPI_masterTransmit(0x00);		//fijar en modo continuo de lectura de temperatura
             SPI_slaveOFF(sl);
 	  _delay_ms(150);
 }
