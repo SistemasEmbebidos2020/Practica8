@@ -24,23 +24,26 @@ ISR(USART_RX_vect){
 
 
 /******************************************************************************************************************************/
-/*                                                               Funciones públicas de la libreria						*/
+/*                                                               Funciones pÃºblicas de la libreria						*/
 /******************************************************************************************************************************/
 /////////////////////////////////////////////
-//inicialización del módulo USART AVR modo asíncrono
-//en una función, a 8bits,a 9600 baudios, sin bit de paridad
+//inicializaciÃ³n del mÃ³dulo USART AVR modo asÃ­ncrono
+//en una funciÃ³n, a 8bits,a 9600 baudios, sin bit de paridad
 //1 bit de parada
 /////////////////////////////////////////////////////
 void serial_begin(){
 	cli();
-	UCSR0A=0b00000000;	//el bit 1 se pone en cero para establecer velocidad normal que afecta al ubbr0
-	UCSR0B=0b10011000;	//habilitar interrupcion por recepcion / habilita pin txd, y rxd / bit 2 con bit 2 y 1 del registro UCSR0C transmisión y recepción habilitados a 8 bits
-	UCSR0C=0b00000110;	//asíncrono, sin bit de paridad, 1 bit de parada a 8 bits
-	UBRR0=51;			//para una velocidad de 9600 baudios con un //oscilador de 8Mhz
+	float valor_UBBR0 = 0;
+	UCSR0A=0b00000010;	//el bit 1 (U2X0) se pone en uno para duplicar la velocidad y poder utilizar frecuencias desde 1MHz
+	UCSR0B=0b10011000;	//habilitar interrupcion por recepcion / transmisiÃƒÂ³n y recepciÃƒÂ³n habilitados a 8 bits
+	UCSR0C=0b00000110;	//asÃƒÂ­ncrono, sin bit de paridad, 1 bit de parada a 8 bits
+	valor_UBBR0 = F_CPU/16.0/BAUD;	//Definir la constante BAUD al inicio del cÃƒÂ³digo
+        if(UCSR0A & (1<<U2X0)) valor_UBBR0 *= 2;
+	UBRR0=valor_UBBR0 - 1;
         sei();
 }
 ///////////////////////////////////////////////
-//recepción de datos del módulo USART AVR modo asíncrono
+//recepciÃ³n de datos del mÃ³dulo USART AVR modo asÃ­ncrono
 ////////////////////////////////////////////////////////////
 unsigned char serial_read_char(){
 	if(UCSR0A&(1<<7)){  //si el bit7 del registro UCSR0A se ha puesto a 1
@@ -50,21 +53,21 @@ unsigned char serial_read_char(){
 	return 0;//retorna 0
 }
 ///////////////////////////////////////////////
-//transmisión de datos del módulo USART AVR modo asíncrono
+//transmisiÃ³n de datos del mÃ³dulo USART AVR modo asÃ­ncrono
 ///////////////////////////////////////////////
 void serial_print_char(unsigned char caracter){
         if(caracter==0) return;
-	while(!(UCSR0A&(1<<5)));    // mientras el registro UDR0 esté lleno espera
-	UDR0 = caracter;            //cuando el el registro UDR0 está vacio se envia el //caracter
+	while(!(UCSR0A&(1<<5)));    // mientras el registro UDR0 estÃ© lleno espera
+	UDR0 = caracter;            //cuando el el registro UDR0 estÃ¡ vacio se envia el //caracter
 }
 //////////////////////////////////////////////
-//transmisión de cadenas de caracteres con el módulo USART AVR modo asíncrono
+//transmisiÃ³n de cadenas de caracteres con el mÃ³dulo USART AVR modo asÃ­ncrono
 ///////////////////////////////////////////////
 void serial_print_str(char *cadena){	//cadena de caracteres de tipo char
-	while(*cadena !=0x00){			//mientras el último valor de la cadena sea diferente
+	while(*cadena !=0x00){			//mientras el Ãºltimo valor de la cadena sea diferente
 							        //al caracter nulo
 		serial_print_char(*cadena);	//transmite los caracteres de cadena
-		cadena++;				//incrementa la ubicación de los caracteres en cadena
+		cadena++;				//incrementa la ubicaciÃ³n de los caracteres en cadena
 								//para enviar el siguiente caracter de cadena
 	}
 }
