@@ -18,8 +18,8 @@ void sensor_init(int sl){
 	  _delay_ms(150);
 }
 
-int16_t readTemp(int sl){
-uint16_t rec1;
+int8_t readTemp(int sl){
+uint8_t rec1;
 	 SPI_slaveON(sl);
 	 SPI_masterTransmit(0x02);		//acceder al registro de temperatura (entero)
 	 rec1 = SPI_masterReceive();
@@ -44,7 +44,7 @@ void SPI_masterTransmit(uint8_t data)
 {
 	/* Cargar dato al registro */
 	SPDR = data;
-	/* Esperar a que la transmisión se realice */
+	/* Esperar a que la transmisiÃ³n se realice */
 	while(!(SPSR & (1<<SPIF)));
 }
 
