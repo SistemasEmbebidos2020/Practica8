@@ -16,4 +16,4 @@ void SPI_init();
 void SPI_slaveON(uint8_t slave);
 void SPI_slaveOFF(uint8_t slave);
 void SPI_masterTransmit(uint8_t data);
-int16_t readTemp(int sl);
+int8_t readTemp(int sl);
