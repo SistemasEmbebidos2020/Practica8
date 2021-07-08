@@ -1,9 +1,12 @@
 #include "i2c.h" 
+#define F_SCL 100000;
 
 void i2c_init(){
-	TWBR = 0x48;		//	I frecuencia 9600 is set by calculating    62  frecuency 100khz
-	TWCR = (1<<TWEN);	//Enable I2C
+	//TWBR = 0x48;		//	I frecuencia 9600 is set by calculating    62  frecuency 100khz
 	TWSR = 0x00;		//Prescaler set to 1
+	uint8_t Presscaler = (2**(2*(TWSR & 0b11)));//solo para tomar en cuenta los dos bits menos significativos ya que el resto puede cambiar
+	TWBR = ((F_CPU / F_SCL)-16)/(2*Presscaler);//formula de la frecuencia de reloj del i2c que debe ser 100KHz segun el fabricante de los slave
+	TWCR = (1<<TWEN);	//Enable I2C
 }
 		//Start condition
 void i2c_start(){
