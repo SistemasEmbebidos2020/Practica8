@@ -2,7 +2,7 @@
 #define RS	0	// 2^0 = 1; se asigna el pin 1como RS
 #define EN	1	// 2^1 = 2; se asigna el pin 2 como EN
 				// el pin R/W va a tierra
-#define ADDRESS  0x27
+#define ADDRESS  0x70
 
 
 void lcd_cmd_hf(char v1)		//configurar de modo 8bits a 4bits de lcd
