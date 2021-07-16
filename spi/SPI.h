@@ -11,7 +11,7 @@
 
 
 void sensor_init(int sl);
-uint8_t SPI_masterReceive();
+int8_t SPI_masterReceive();
 void SPI_init();
 void SPI_slaveON(uint8_t slave);
 void SPI_slaveOFF(uint8_t slave);
