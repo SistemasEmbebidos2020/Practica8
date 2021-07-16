@@ -28,7 +28,7 @@ uint8_t rec1;
 }
 
 
-uint8_t SPI_masterReceive()
+int8_t SPI_masterReceive()
 {
     // transmit dummy byte
    SPDR = 0x082;
