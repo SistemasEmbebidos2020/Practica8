@@ -92,3 +92,11 @@ char* get_RX_buffer(){
 bool is_data_ready(){
    return isReady;
 }
+
+void leer(){
+  if ((is_data_ready()))
+  {
+  return get_RX_buffer();
+  }
+ 
+}
