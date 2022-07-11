@@ -1,3 +1,5 @@
+#include <util/delay.h>
+#include <avr/io.h>
 #include <LiquidCrystal_I2C.h>
 LiquidCrystal_I2C lcd1(0x27,16,2);
 
