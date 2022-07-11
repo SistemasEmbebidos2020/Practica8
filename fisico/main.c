@@ -9,13 +9,10 @@ serial_begin();
 
 while (1)
 {
-if (is_data_ready()){
+serial_println_str("Bienvenido a Sistemas Embebidos");
+while (!is_data_ready()){_delay_ms(2);}
 mensaje = get_RX_buffer();
 serial_println_str(mensaje);
-}
-serial_println_str("Ecuador virtual Campeón copa América");
-_delay_ms(2000);
-
 }
    return 0;
 }
